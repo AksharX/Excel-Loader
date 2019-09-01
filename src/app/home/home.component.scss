@@ -1,0 +1,25 @@
+.container {
+  align-items: center;
+  padding: 1em;
+}
+.card-container {
+  height: calc(100vh - 110px);
+}
+
+.grid-container {
+  height: 100%;
+}
+.tile-container {
+  height: 100%;
+  width: 100%;
+}
+
+.excel-table {
+  width: 98%;
+}
+
+mat-grid-tile {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+}

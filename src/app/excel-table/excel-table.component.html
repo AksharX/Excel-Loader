@@ -1,0 +1,24 @@
+<mat-form-field class="example-full-width">
+  <input matInput placeholder="Filter" (keyup)="applyFilter($event.target.value)" />
+</mat-form-field>
+<div class="ripple-container" matRipple matRippleUnbounded="false" matRippleDisabled="true">
+  <div
+    matSort
+    class="table-container"
+    appExcelDrop
+    (filesDropped)="handleDrop($event)"
+    (filesHovered)="handleHovered($event)"
+  >
+    <table mat-table [dataSource]="data" *ngIf="!IsDataLoading">
+      <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column }}</th>
+        <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+    </table>
+
+    <app-loader [isLoading]="IsDataLoading" message="Loading!"></app-loader>
+  </div>
+  <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+</div>
