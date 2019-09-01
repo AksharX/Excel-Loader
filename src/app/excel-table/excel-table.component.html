@@ -7,7 +7,7 @@
     class="table-container"
     appExcelDrop
     (filesDropped)="handleDrop($event)"
-    (filesHovered)="handleHovered($event)"
+    (filesHovered)="handleHovered()"
   >
     <table mat-table [dataSource]="data" *ngIf="!IsDataLoading">
       <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay">
