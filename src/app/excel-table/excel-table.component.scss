@@ -6,7 +6,19 @@ table {
   height: 100%;
   overflow: auto;
 }
+.mat-cell {
+  padding-right: 5px;
+}
+.mat-header-row {
+  height: 0%;
+}
+
+.mat-row {
+  height: 0%;
+}
 
 .ripple-container {
-  height: 80%;
+  height: calc(100% - 100px);
+  display: flex;
+  flex-direction: column;
 }

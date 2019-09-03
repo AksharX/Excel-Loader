@@ -12,10 +12,12 @@
 .tile-container {
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
 .excel-table {
-  width: 98%;
+  width: 100%;
 }
 
 mat-grid-tile {

@@ -1,0 +1,5 @@
+<span *ngIf="UseDefault" class="cell">{{ CellValue }}</span>
+<mat-checkbox *ngIf="UseCheckBox" [checked]="this.CellValue"></mat-checkbox>
+<mat-form-field *ngIf="UseInput" class="example-full-width">
+  <input matInput placeholder="Favorite food" value="{{ this.CellValue }}" />
+</mat-form-field>

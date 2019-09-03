@@ -5,6 +5,9 @@ import { ExcelService, ExcelImportResult } from './excelService/excel.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatRipple } from '@angular/material/core';
+import { FormatTypes } from './table-cell/table-cell.component';
+import { SelectionModel } from '@angular/cdk/collections';
+import { FileDropEvent } from './excelDirective/excel-drop.directive';
 
 @Component({
   selector: 'app-excel-table',
@@ -18,6 +21,8 @@ export class ExcelTableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) pagination: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
+  public formatTypes = FormatTypes;
+
   public data: MatTableDataSource<any> = new MatTableDataSource();
   public columnsToDisplay: string[] = ['id', 'text'];
   public IsDataLoading = false;
@@ -28,12 +33,12 @@ export class ExcelTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.SetupNewDataSource([]);
+    this.SetupNewDataSource([], ['DROP EXCEL']);
   }
 
-  public handleDrop(files: FileList) {
-    this.ripple.launch({});
-    const excelResult = this.excelService.LoadExcel(files[0]);
+  public handleDrop(e: FileDropEvent) {
+    this.ripple.launch(e.MouseCoordinates.x, e.MouseCoordinates.y, {});
+    const excelResult = this.excelService.LoadExcel(e.FileList[0]);
     this.IsDataLoading = true;
 
     if (!excelResult.IsSuccessful) {
@@ -55,13 +60,12 @@ export class ExcelTableComponent implements OnInit {
       console.log('Something went wrong with Excel Import');
       return;
     }
-
-    this.columnsToDisplay = excelResult.ExcelData.Headers;
-    this.SetupNewDataSource(excelResult.ExcelData.RowData);
+    this.SetupNewDataSource(excelResult.ExcelData.RowData, excelResult.ExcelData.Headers);
   }
 
-  private SetupNewDataSource(newData: any[]) {
+  private SetupNewDataSource(newData: any[], columnData: any[]) {
     console.log(newData);
+    this.columnsToDisplay = columnData;
     this.data = new MatTableDataSource(newData);
     this.data.paginator = this.pagination;
     this.data.sort = this.sort;

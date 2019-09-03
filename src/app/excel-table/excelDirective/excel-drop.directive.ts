@@ -1,11 +1,16 @@
 import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 import * as _ from 'lodash';
 
+export class FileDropEvent {
+  FileList: FileList;
+  MouseCoordinates: { x: number; y: number };
+}
+
 @Directive({
   selector: '[appExcelDrop]'
 })
 export class ExcelDropDirective {
-  @Output() public filesDropped = new EventEmitter<FileList>();
+  @Output() public filesDropped = new EventEmitter<FileDropEvent>();
   @Output() public filesHovered = new EventEmitter();
 
   private IsHovered = false;
@@ -13,9 +18,15 @@ export class ExcelDropDirective {
 
   @HostListener('drop', ['$event'])
   onDrop($event: any) {
+    console.log($event.clientX);
     $event.preventDefault();
     const transfer = $event.dataTransfer;
-    this.filesDropped.emit(transfer.files);
+
+    const dropEvent = new FileDropEvent();
+    dropEvent.FileList = transfer.files;
+    dropEvent.MouseCoordinates = { x: $event.clientX, y: $event.clientY };
+
+    this.filesDropped.emit(dropEvent);
     this.filesHovered.emit(false);
     this.IsHovered = false;
   }
